@@ -1,4 +1,0 @@
-#cd ./../../../openwsn-fw
-
-grep "$1" --color -R .
-#cd ./../openwsn-sw/software/openvisualizer
