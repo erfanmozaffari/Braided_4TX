@@ -1,0 +1,4 @@
+
+cd ./openwsn-sw/software/openvisualizer
+grep "$1" --color -R .
+
