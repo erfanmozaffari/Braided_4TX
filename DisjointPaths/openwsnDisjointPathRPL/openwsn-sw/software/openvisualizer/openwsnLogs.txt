@@ -1,0 +1,13 @@
+STAT_PK_TX |addr= 1 |asn= 117 |length= 95 |slotOffset= 0 |frequency= 15 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 58 |SeqNum= 37916 |l2Dsn= 0 |frameType= 1 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 118 |length= 55 |slotOffset= 1 |frequency= 25 |l2Dest= 0 |numTxAttempts= 1 |L3Src= 0 |L3Dest= 0 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 1 |frameType= 0 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 234 |length= 95 |slotOffset= 0 |frequency= 12 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 58 |SeqNum= 37916 |l2Dsn= 3 |frameType= 1 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 235 |length= 55 |slotOffset= 1 |frequency= 13 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 2 |frameType= 0 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 351 |length= 55 |slotOffset= 0 |frequency= 21 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 4 |frameType= 0 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 468 |length= 95 |slotOffset= 0 |frequency= 26 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 58 |SeqNum= 37916 |l2Dsn= 6 |frameType= 1 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 469 |length= 55 |slotOffset= 1 |frequency= 15 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 5 |frameType= 0 |txpower= 31
+STAT_PK_RX |addr= 3 |asn= 469 |length= 0 |slotOffset= 1 |frequency= 15 |l2Src= 1 |L3Src= 0 |L3Dest= 0 |L4Proto= 250 |SeqNum= 21568 |l2Dsn= 5 |frameType= 0 |rssi= 206 |lqi= 100 |crc= 1
+STAT_PK_TX |addr= 1 |asn= 585 |length= 55 |slotOffset= 0 |frequency= 11 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 7 |frameType= 0 |txpower= 31
+STAT_PK_TX |addr= 1 |asn= 702 |length= 95 |slotOffset= 0 |frequency= 20 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 58 |SeqNum= 37916 |l2Dsn= 8 |frameType= 1 |txpower= 31
+STAT_PK_RX |addr= 3 |asn= 702 |length= 80 |slotOffset= 0 |frequency= 20 |l2Src= 1 |L3Src= 0 |L3Dest= 0 |L4Proto= 250 |SeqNum= 21568 |l2Dsn= 8 |frameType= 1 |rssi= 206 |lqi= 100 |crc= 1
+STAT_PK_TX |addr= 1 |asn= 703 |length= 55 |slotOffset= 1 |frequency= 21 |l2Dest= 255 |numTxAttempts= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 37916 |l2Dsn= 9 |frameType= 0 |txpower= 31
+STAT_PK_RX |addr= 3 |asn= 703 |length= 0 |slotOffset= 1 |frequency= 21 |l2Src= 1 |L3Src= 1 |L3Dest= 26 |L4Proto= 250 |SeqNum= 21568 |l2Dsn= 9 |frameType= 0 |rssi= 206 |lqi= 100 |crc= 1
