@@ -48,7 +48,7 @@ void uinject_init() {
     );*/
     opentimers_scheduleIn(
         uinject_vars.timerId,
-        280*SLOTFRAME_LENGTH*15,   // one slot duration: 15ms
+        340*SLOTFRAME_LENGTH*15,   // one slot duration: 15ms
         TIME_MS,
         TIMER_ONESHOT,
         uinject_timer_cb
@@ -124,7 +124,7 @@ void uinject_task_cb() {
    if (currentASN%SLOTFRAME_LENGTH!=uinject_vars.period)
    	return;
 
-   if (!openqueue_isQueueEmpty(IANA_UDP, COMPONENT_UINJECT))
+   if (!openqueue_makeQueueEmpty(IANA_UDP, COMPONENT_UINJECT))
       return;
 #endif
 

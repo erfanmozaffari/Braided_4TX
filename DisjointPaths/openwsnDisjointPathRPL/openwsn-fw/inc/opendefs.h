@@ -51,7 +51,7 @@ static const uint8_t infoStackName[] = "OpenWSN ";
 #define SECONDARY_PARENT
 
 // crashed nodes container, Added by Erfan; two distinct arrays to use minimum memory
-//#define CRASH_NODES
+#define CRASH_NODES
 
 // queue management. Ensure that one packet is generated per flow per slot frame
 #define QUEUE_MANAGEMENT

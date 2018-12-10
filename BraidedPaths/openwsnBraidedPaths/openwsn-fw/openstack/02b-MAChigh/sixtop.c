@@ -581,7 +581,7 @@ owerror_t sixtop_send_internal(
         ) {
         msg->l2_retriesLeft = 1;
     } else {
-        // if we have both parents and no failure, then we set chances=4, otherwise we set chances=2 (TXRETRIES=3)
+        /*// if we have both parents and no failure, then we set chances=4, otherwise we set chances=2 (TXRETRIES=3)
         open_addr_t checkAvailability;
         if (icmpv6rpl_getPreferredParentEui64(&checkAvailability)) {
             if (icmpv6rpl_getSecondPreferredParentEui64(&checkAvailability)) {
@@ -606,7 +606,10 @@ owerror_t sixtop_send_internal(
                   msg->l2_retriesLeft, schedule_getSlotOffset());
         }        
         */
-        if (msg->l4_protocol != IANA_UDP) {
+        if (msg->l4_protocol == IANA_UDP) {
+            msg->l2_retriesLeft = TXRETRIES + 1;
+        }
+        else {
             msg->l2_retriesLeft = 2;
         }
     }

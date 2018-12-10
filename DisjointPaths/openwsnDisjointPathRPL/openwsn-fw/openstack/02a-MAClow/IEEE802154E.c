@@ -844,36 +844,6 @@ port_INLINE void activity_ti1ORri1() {
       }
    }
    */
-   // desynchronize if needed
-   if (idmanager_getIsDAGroot()==FALSE) {
-      if(ieee154e_vars.deSyncTimeout > ieee154e_vars.numOfSleepSlots){
-         ieee154e_vars.deSyncTimeout -= ieee154e_vars.numOfSleepSlots;
-      }
-      else{
-            open_addr_t addres;
-            printf("\nDesync Stat:addr: %d, have Parent: %d\n\n", 
-               idmanager_getMyID(ADDR_64B)->addr_64b[7], icmpv6rpl_getPreferredParentEui64(&addres));
-            if (!icmpv6rpl_getPreferredParentEui64(&addres)) {
-               // Reset sleep slots
-               ieee154e_vars.numOfSleepSlots = 1;
-           
-               // declare myself desynchronized
-               changeIsSync(FALSE);
-               
-               // log the error
-               openserial_printError(COMPONENT_IEEE802154E,ERR_DESYNCHRONIZED,
-                                     (errorparameter_t)ieee154e_vars.slotOffset,
-                                     (errorparameter_t)0);
-               
-               // update the statistics
-               ieee154e_stats.numDeSync++;
-                  
-               // abort
-               endSlot();
-               return;
-            }
-      }
-   }
    // if the previous slot took too long, we will not be in the right state
    if (ieee154e_vars.state!=S_SLEEP) {
       // log the error
@@ -938,15 +908,14 @@ port_INLINE void activity_ti1ORri1() {
 
 #ifdef CRASH_NODES
    // check whether the current node crashes or not, added by Erfan
-   uint8_t p;
-   for (p=0;p<5;p++) {
-       if (crashedNodes_ID[p]==idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
-          ieee154e_getAsn(asn);
-          uint32_t currentASN = asn[0] + asn[1]*256 + asn[2]*256*256 + asn[3]*256*256*256;
-          if (currentASN > crashedNodes_ASN[p]) {
-              return;
-          }
-       }
+   for (i=0;i<5;i++) {
+      if (crashedNodes_ID[i]==idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
+         ieee154e_getAsn(asn);
+         uint32_t currentASN = asn[0] + asn[1]*256 + asn[2]*256*256 + asn[3]*256*256*256;
+         if (currentASN > crashedNodes_ASN[i]) {
+            return;
+         }
+      }
    }
 #endif
 

@@ -244,29 +244,47 @@ The fields which are updated are:
    header.
 */
 void schedule_getParents(uint8_t* havePrimary, uint8_t* primaryIndex, uint8_t* haveSecondary, uint8_t* secondaryIndex) {
-   bool primary;
-   bool secondary;
-   primary=FALSE;
-   secondary=FALSE;
-   uint8_t i,j;
+   bool        primary;
+   bool        secondary;
+   uint8_t     i,j;
    open_addr_t address;
+
+   primary   = FALSE;
+   secondary = FALSE;
 
    INTERRUPT_DECLARATION();
    DISABLE_INTERRUPTS();  
-   printf("currAddr: %d, primary: %d, secondary: %d\n", 
-      idmanager_getMyID(ADDR_64B)->addr_64b[7], parents_vars.primaryParent.addr_64b[7], parents_vars.secondaryParent.addr_64b[7]);
 
+#ifdef CRASH_NODES   
+   uint8_t  asn[5];
+   uint32_t currentASN;
+   ieee154e_getAsn(asn);
+   currentASN = asn[0] + asn[1]*256 + asn[2]*256*256 + asn[3]*256*256*256;
+   for (i=0;i<5;i++) {
+      if (crashedNodes_ID[i] == parents_vars.primaryParent.addr_64b[7] && (currentASN > crashedNodes_ASN[i])) {
+         uint8_t tmp                              = parents_vars.secondaryParent.addr_64b[7];
+         parents_vars.secondaryParent.addr_64b[7] = parents_vars.primaryParent.addr_64b[7];
+         parents_vars.primaryParent.addr_64b[7]   = tmp;
+         break;    
+      }
+   }
+#endif
+
+   printf("currAddr: %d, primary: %d, secondary: %d\n", 
+            idmanager_getMyID(ADDR_64B)->addr_64b[7], 
+            parents_vars.primaryParent.addr_64b[7], 
+            parents_vars.secondaryParent.addr_64b[7]);
    // set primary parent
-   if (parents_vars.primaryParent.type!=ADDR_NONE) {
-      // loop through neighbor table
-      for (i=0;i<MAXNUMNEIGHBORS;i++) {
-         if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
-            if (isThisRowMatching(&parents_vars.primaryParent,i)) {
+   // loop through neighbor table
+   for (i=0;i<MAXNUMNEIGHBORS;i++) {
+      if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
+         if (parents_vars.primaryParent.type!=ADDR_NONE) {
+            if (isThisRowMatching(&parents_vars.primaryParent, i)) {
                printf("currAddr: %d, bestParent: %d", 
-                  idmanager_getMyID(ADDR_64B)->addr_64b[7], parents_vars.primaryParent.addr_64b[7]);
+                        idmanager_getMyID(ADDR_64B)->addr_64b[7], parents_vars.primaryParent.addr_64b[7]);
+               primary       = TRUE;
                *havePrimary  = TRUE;
                *primaryIndex = i;
-               primary       = TRUE;
                if (icmpv6rpl_getPreferredParentEui64(&address)) {
                   if (!packetfunctions_sameAddress(&address, &parents_vars.primaryParent)) {
                      icmpv6rpl_getPreferredParentIndex(&j);
@@ -283,16 +301,16 @@ void schedule_getParents(uint8_t* havePrimary, uint8_t* primaryIndex, uint8_t* h
    // primary parent isn't joined yet. so set secondary parent as primary parent.
    if (!primary && !secondary) {
       // loop through neighbor table
-      if (parents_vars.secondaryParent.type!=ADDR_NONE) {
-         for (i=0;i<MAXNUMNEIGHBORS;i++) {
-            if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
-               if (isThisRowMatching(&parents_vars.secondaryParent,i)) {
+      for (i=0;i<MAXNUMNEIGHBORS;i++) {
+         if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
+            if (parents_vars.secondaryParent.type!=ADDR_NONE) {
+               if (isThisRowMatching(&parents_vars.secondaryParent, i)) {
                   printf("currAddr: %d, bestParent(secondary): %d", 
-                     idmanager_getMyID(ADDR_64B)->addr_64b[7], parents_vars.secondaryParent.addr_64b[7]);
-                  *havePrimary  = TRUE;
-                  *primaryIndex = i;
+                           idmanager_getMyID(ADDR_64B)->addr_64b[7], parents_vars.secondaryParent.addr_64b[7]);
                   primary       = TRUE;
                   secondary     = TRUE;
+                  *havePrimary  = TRUE;
+                  *primaryIndex = i;
                   if (icmpv6rpl_getPreferredParentEui64(&address)) {
                      if (packetfunctions_sameAddress(&address, &parents_vars.primaryParent)) 
                         break;
@@ -312,14 +330,14 @@ void schedule_getParents(uint8_t* havePrimary, uint8_t* primaryIndex, uint8_t* h
    // set secondary parent
    if (primary && !secondary) {
       // loop through neighbor table
-      if (parents_vars.secondaryParent.type!=ADDR_NONE) {
-         for (i=0;i<MAXNUMNEIGHBORS;i++) {
-            if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
-               if (isThisRowMatching(&parents_vars.secondaryParent,i)) {
+      for (i=0;i<MAXNUMNEIGHBORS;i++) {
+         if (neighbors_isStableNeighborByIndex(i)) { // in use and link is stable
+            if (parents_vars.secondaryParent.type!=ADDR_NONE) {
+               if (isThisRowMatching(&parents_vars.secondaryParent, i)) {
                   printf(", secondary: %d", parents_vars.secondaryParent.addr_64b[7]);
+                  secondary       = TRUE;
                   *haveSecondary  = TRUE;
                   *secondaryIndex = i;
-                  secondary       = TRUE;
                }
             }
          }
